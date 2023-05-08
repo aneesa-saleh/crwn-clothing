@@ -44,4 +44,28 @@
       }
     }
   }
+
+  .cart-button {
+    min-width: 0;
+    width: min-content;
+    height: 50px;
+    letter-spacing: 0.5px;
+    line-height: 50px;
+    padding: 0;
+    font-size: 15px;
+    background-color: transparent;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Open Sans";
+    font-weight: bolder;
+    border: none;
+    cursor: pointer;
+    display: block;
+    justify-content: center;
+    color: black;
+
+    &:hover {
+      border: none;
+    }
+  }
   

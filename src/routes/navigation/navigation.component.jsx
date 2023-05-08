@@ -10,6 +10,7 @@ import './navigation.styles.scss';
 
 function Navigation() {
     const { currentUser, setCurrentUser } = useContext(UserContext);
+    
 
     const signOutHandler = async () => {
         try {

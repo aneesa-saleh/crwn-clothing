@@ -2,7 +2,8 @@ import './button.styles.scss';
 
 export const BUTTON_TYPE_CLASSES = {
     google: 'google-sign-in',
-    inverted: 'inverted'
+    inverted: 'inverted',
+    'cart-button': 'cart-button'
 }
 
 function Button({ children, buttonType, ...otherProps }) {
