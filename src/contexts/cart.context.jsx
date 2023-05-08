@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createContext, useState } from "react";
 
 function addCartItem(cartItems, productToAdd) {
@@ -22,12 +23,13 @@ export const CartContext = createContext({
     setIsShowingCartDropdown: () => {},
     cartItems: [],
     addItemToCart: () => {},
-    getCartCount: () => {}
+    cartCount: 0, // same function as getCartCount, just practising using hooks with context 
 });
 
 export const CartDropdownProvider = ({ children }) => {
     const [isShowingCartDropdown, setIsShowingCartDropdown] = useState(false);
     const [cartItems, setCartItems] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
     
     const addItemToCart = (productToAdd) => {
         const updatedCartItems = addCartItem(cartItems, productToAdd);
@@ -36,16 +38,18 @@ export const CartDropdownProvider = ({ children }) => {
 
     const getCartCount = () => {
         if(cartItems) {
-            return cartItems.reduce(
-                (prev, current) => prev + current.quantity,
-                0
-            );
+            return cartItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
         }
     
         return 0;
     }
 
-    const value = { isShowingCartDropdown, setIsShowingCartDropdown, cartItems, addItemToCart, getCartCount };
+    useEffect(() => {
+        const currentCartCount = getCartCount();
+        setCartCount(currentCartCount);
+    }, [cartItems]);
+
+    const value = { isShowingCartDropdown, setIsShowingCartDropdown, cartItems, addItemToCart, cartCount };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
