@@ -7,7 +7,7 @@ import App from './App';
 import { UserProvider } from './contexts/user.context';
 import { ProductsProvider } from './contexts/product.context';
 import './index.scss';
-import { CartDropdownProvider } from './contexts/cart-dropdown.context';
+import { CartDropdownProvider } from './contexts/cart.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
