@@ -6,17 +6,19 @@ import Button from '../button/button.component';
 import './cart-icon.styles.scss';
 
 function CartIcon() {
-    const { isShowingCartDropdown, setIsShowingCartDropdown } = useContext(CartContext);
+    const { isShowingCartDropdown, setIsShowingCartDropdown, cartItems, getCartCount } = useContext(CartContext);
 
     const toggleCartDropdown = () => {
         setIsShowingCartDropdown(!isShowingCartDropdown);
     }
 
+    const cartCount = getCartCount();
+
     return (
         <div className="cart-icon-container">
             <Button onClick={toggleCartDropdown} buttonType="cart-button">
                 <ShoppingIcon className="shopping-icon" />
-                <span className="item-count">0</span>
+                <span className="item-count">{cartCount}</span>
             </Button>
         </div>
          
