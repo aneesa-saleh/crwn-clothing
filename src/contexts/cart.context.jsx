@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 
 function addCartItem(cartItems, productToAdd) {
     const cartItem = cartItems.find(
-        (cartItem) => cartItem.id === productToAdd.id
+        item => item.id === productToAdd.id
     );
 
     if (cartItem) {
@@ -18,12 +18,38 @@ function addCartItem(cartItems, productToAdd) {
     }
 }
 
+function removeCartItem(cartItems, productToRemove) {
+    const cartItem = cartItems.find(
+        item => item.id === productToRemove.id
+    );
+
+    if (cartItem) {
+        return cartItems.flatMap(
+            (item) => {
+                if (item.id === productToRemove.id) {
+                    return item.quantity > 1 ? {...item, quantity: item.quantity - 1} : []
+                } else {
+                    return item;
+                }
+            }
+        );
+    } else {
+        return [...cartItems];
+    }
+}
+
+function clearCartItem(cartItems, productToClear) {
+    return cartItems.filter(item => item.id !== productToClear.id);
+}
+
 export const CartContext = createContext({
     isShowingCartDropdown: false,
     setIsShowingCartDropdown: () => {},
     cartItems: [],
     addItemToCart: () => {},
-    cartCount: 0, // same function as getCartCount, just practising using hooks with context 
+    removeItemFromCart: () => {},
+    clearItemFromCart: () => {},
+    cartCount: 0,
 });
 
 export const CartDropdownProvider = ({ children }) => {
@@ -33,6 +59,16 @@ export const CartDropdownProvider = ({ children }) => {
     
     const addItemToCart = (productToAdd) => {
         const updatedCartItems = addCartItem(cartItems, productToAdd);
+        setCartItems(updatedCartItems);
+    }
+
+    const removeItemFromCart = (productToRemove) => {
+        const updatedCartItems = removeCartItem(cartItems, productToRemove);
+        setCartItems(updatedCartItems);
+    }
+
+    const clearItemFromCart = (productToClear) => {
+        const updatedCartItems = clearCartItem(cartItems, productToClear);
         setCartItems(updatedCartItems);
     }
 
@@ -49,7 +85,15 @@ export const CartDropdownProvider = ({ children }) => {
         setCartCount(currentCartCount);
     }, [cartItems]);
 
-    const value = { isShowingCartDropdown, setIsShowingCartDropdown, cartItems, addItemToCart, cartCount };
+    const value = {
+        isShowingCartDropdown,
+        setIsShowingCartDropdown,
+        cartItems,
+        addItemToCart,
+        removeItemFromCart,
+        clearItemFromCart,
+        cartCount
+    };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
